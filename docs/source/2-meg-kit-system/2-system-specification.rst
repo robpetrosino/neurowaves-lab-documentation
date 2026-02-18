@@ -7,7 +7,7 @@ MEG-KIT system description
 --------------------------
 MEG systems are equipped with highly sensitive sensors called SQUIDs. In order for SQUIDS to operate and become sensitive to changes of very small magnetic fields, they need to be brought to a super-conducting state (which suppresses the resistence of the material of the sensor).
 To reach the superconducting state, the sensors need to be cooled down to -277 degres Celsius, to achieve this temperature
-liquid Helium is needed.
+liquid Helium is needed. The sensors are bathed in the liquid Helium constantly. A heater system ensures that the liquid Helium stays in liquid state.
 The MEG-KIT system has:
 
 - 208 axial gradiometers used to measure brain activity
@@ -23,24 +23,50 @@ If you feel anything strange while doing an experiment (i.e., you suspect a heli
 the subject immediately.  Do not leave the room with a subject in the MSR.
 
 
+.. important::
 
+  Since 2018, the gradiometer sensor mapped to channel 091 in KIT indexing is irreparably damaged. Since the incident, the sensor has been statically typed as a magnetometer, this ensures
+  that the data from this sensor is not processed automatically during analysis in the provided pipelines.
+  The channel displays a TTL squared signal during a data acquisition. 
 
+  
 
 LAB setup
-#########
+---------
 
-Computers:
+Lab setup: Outside the MSR
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- MEG Control PC: used to acquire the MEG data. Do not use the MEG control computer (MEG CONTROL) except for MEG use.
+Computers
+"""""""""
+- MEG DAQ PC: used to acquire the MEG data, has four screens for visualising sensor data in real time
+- stimulus1 pc: used to run the experiments, has two screens for visualising code on the bottom screen and experiment on the top screen acting as a mirror to the projected image inside the MSR
+    - 
 
-Most importantly, do not install any software. This may cause the system to not work properly.
+Vpixx stimulus/projector system
+"""""""""""""""""""""""""""""""
 
-- stimulus1 pc: used to run the experiment
-- stimulus 2 pc: used to put the experiment
+Propixx (Screen projector)
+""""""""""""""""""""""""""
+
+The Vpixx Propixx  system projects visual stimuli on a screen of width of 65 cm
+
+Responsepixx boxes (Button boxes)
+"""""""""""""""""""""""""""""""""
+
+Boxes currently used in the MEG lab
+
+
+.. csv-table:: Responsepixx boxes
+   :file: documents/responsepix_boxes.csv
+   :header-rows: 1
+
+10 buttons in total coded on 10 bits (bit 0 to bit 9)
+
 
 
 Lab setup: Inside the MSR
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The MSR is equipped with dimmable 6 halogen light bulbs. Replacement ones are found in the lab incase of needing to change.
 Backup battery is located in one of the office spaces connected via yellow cables
@@ -67,33 +93,6 @@ Backup battery is located in one of the office spaces connected via yellow cable
 
 
 
-Legacy system (Older system)
-----------------------------
-The hardware components constituting the (legacy) MEG system:
-
-
-
-
-
-
-Vpixx system (New system)
--------------------------
-
-Screen width 65 cm
-
-Responsepixx
-------------
-
-Boxes currently used in the MEG lab
-
-
-.. csv-table:: Responsepixx boxes
-   :file: documents/responsepix_boxes.csv
-   :header-rows: 1
-
-Issue: leftbox has the yellow button stuck so bit number 1 is stuck
-10 buttons in total coded on 10 bits (bit 0 to bit 9)
-
 Electronic lag times between visual stimulus and KIT trigger box
 ----------------------------------------------------------------
 
@@ -106,54 +105,41 @@ Gayathri used 1000 trials with a 1000 Hz sampling frequency her findings summari
 - the maximum value was `11ms`
 - the minimum value was `8ms`
 
-Therefore, when processing the MEG data that requires 1 millisecond precision, the user can correct the visual stimulus trigger signals by adding an 8 ms shift in the increasing order of time.
+Therefore, when processing the MEG data that requires 1 millisecond precision, the user can correct the visual stimulus trigger signals by adding an 8.2 ms shift in the increasing order of time.
 
 
 MEG-Channels
-############
+------------
 
 .. note::
     The numbering of channels on the KIT data acquisition software called `MEG 160` starts with index 0, however in MATLAB processing, channels start with index 1.
 
-Channels 0 to 90 and 92 to 207: Gradiometers SQUIDS
-Channel 91: Reference magnetometer
-Channels 208-223: Magnetometers for reference magnetic field (these are used to denoising and to understand the ambiant magnetic field the environment)
 
-Old configuration (no longer used)
-224: Lightsensor 1
+MEG-KIT sensor channels
+^^^^^^^^^^^^^^^^^^^^^^^
 
-225: Lightsensor 2
-
-228: Microphone
-
-229: Event marker bit 0
-
-230: Event marker bit 1
-
-231: Event marker bit 2
-
-New Vpixx configuration: all these channels are free to be used by the experiment designer, [it can be used as a binary signal of 6 bits
-
-224: Event marker bit 0
-
-225: Event marker bit 1
-
-228: Event marker bit 2
-
-229: Event marker bit 3
-
-230: Event marker bit 4
-
-231: Event marker bit 5
+- Channels 0 to 90 and 92 to 207: Gradiometers SQUIDS
+- Channel 91: broken gradiometer sensor typed as Reference magnetometer to avoid 
+- Channels 208-223: Magnetometers for reference magnetic field (these are used to denoising and to understand the ambiant magnetic field the environment)
 
 
+Vpixx Stimulus channels
+^^^^^^^^^^^^^^^^^^^^^^^
 
-One of the channels (In the 80's ) displays a digital signal, this is because one of the sensors are shut off and not used.
-Processing pipeline should include this exclusion and not process data from this channel.
-(channel name to be identified).
+These channels are free to be used by the experiment designer, they can be used as a binary signal of 8 bits
+
+- 224: Event marker bit 0
+- 225: Event marker bit 1
+- 226: Event marker bit 2
+- 227: Event marker bit 3
+- 228: Event marker bit 4
+- 229: Event marker bit 5
+- 230: Event marker bit 6
+- 231: Event marker bit 7
+
 
 MEG-Racks
-#########
+---------
 
 The KIT-MEG system has 7 racks
 
@@ -163,7 +149,7 @@ The KIT-MEG system has 7 racks
 
 
 MSR: Magnetically Shielded Room
-###############################
+-------------------------------
 
 The KIT-MEG is located in an MSR built by `VacuumShmelze <https://www.vacuumschmelze.com/>`_
 
@@ -190,7 +176,7 @@ The KIT-MEG is located in an MSR built by `VacuumShmelze <https://www.vacuumschm
 
 
 MEG160 Software parameters
-##########################
+--------------------------
 
 `MEG160` is the main software for data acquisition from the KIT-MEG system.
 
@@ -208,27 +194,22 @@ If we see a strong noise on a specific frequency (for example 50Hz) and would li
 
 
 Frequently asked questions (FAQ)
-################################
+--------------------------------
 
-- Does locking the SQUID sensors and opening the MSR door can cause harm to the SQUIDs?
+- Can locking the SQUID sensors and opening the MSR door damage the SQUIDs?
 
-When you open the MSR door with SQUIDs locked, the output of some
-sensors may become flat. But they are not dead but just faint away due
-to the excessive magnetic field fluctuation by swinging the door. The
-function of the sensors come back when they are once unlock and lock
-again with the door closed.
-
+Opening the magnetically shielded room (MSR) door while the SQUID sensors are locked may cause the output of some channels to appear flat. 
+However, this does not indicate permanent damage to the sensors. The temporary signal suppression is typically due to large magnetic field fluctuations from external magnetic field penetrating to the inside of the MSR.
+The sensors are not malfunctioning; rather, they momentarily lose proper operating conditions because of the external magnetic disturbance. 
+Once the MSR door is closed, unlocking and then relocking the SQUIDs, autotuning restores normal sensor function.
 
 - How to test trigger channels while opening the MSR?
 
-Avoid locking the sensors, keep the MSR door open and perform all tests with Vpixx response boxes, microphone and other hardware to test your experiment
-
-
-
+In such scenario, do not lock the sensors, keep the MSR door open and perform all tests with Vpixx response boxes, microphone and other hardware to test your experiment
 
 
 Contact
-#######
+-------
 
 .. list-table::
    :widths: 25 25 25 25
@@ -261,7 +242,7 @@ Contact
 
 
 References
-##########
+----------
 
 The following is a list of references for further understanding on MEG systems
 
