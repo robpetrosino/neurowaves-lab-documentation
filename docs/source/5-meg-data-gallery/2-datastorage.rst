@@ -82,6 +82,59 @@ The three above files can be found at the root of your dataset, while having the
     - If a particular file applies to all runs, then it should not have the `run` descriptor in its name
     - If a particular file applies to all sessions, then it should not have the `ses` descriptor in its name
 
+Filename Entities and Ordering
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The BIDS standard enforces a strict ordering of components (entities) in filenames.
+The following table shows the order in which entities must appear if they are present.
+Entities marked as **Mandatory** must always be included.
+
+.. list-table::
+   :widths: 25 20 55
+   :header-rows: 1
+
+   * - Entity
+     - Status
+     - Description
+   * - ``sub-<label>``
+     - **Mandatory**
+     - Subject ID. Unique identifier for the subject.
+   * - ``ses-<label>``
+     - Optional
+     - Session ID. Required if the subject has multiple sessions.
+   * - ``task-<label>``
+     - **Mandatory**
+     - Task name (required for functional data).
+   * - ``acq-<label>``
+     - Optional
+     - Acquisition parameter (e.g., ``acq-laserproject``).
+   * - ``run-<index>``
+     - Optional
+     - Run index. Used if multiple runs of the same task are acquired.
+   * - ``mod-<label>``
+     - Optional
+     - Modality.
+   * - ``split-<index>``
+     - Optional
+     - Split index. Specific to .con split files.
+   * - ``proc-<label>``
+     - Optional
+     - Processing label (e.g., ``proc-CALMnoisereduction``).
+   * - ``space-<label>``
+     - Optional
+     - Coordinate space (e.g., ``space-ALS`` for marker files).
+   * - **Suffix**
+     - **Mandatory**
+     - The modality or file type suffix (e.g., ``_meg``, ``_markers``, ``_headshape``).
+   * - **Extension**
+     - **Mandatory**
+     - The file extension (e.g., ``.con``, ``.mrk``, ``.fif``, ``.json``).
+
+.. warning::
+    The order of these entities is fixed. For example, ``sub-001_task-rest_ses-01_meg.con`` is **INVALID** because ``ses`` must come before ``task``.
+    The correct name is ``sub-001_ses-01_task-rest_meg.con``.
+    
+
 MEG-Laserscan files
 ~~~~~~~~~~~~~~~~~~~
 
