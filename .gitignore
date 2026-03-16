@@ -15,6 +15,7 @@ rtd-build-output
 *_local*
 *.local*
 *local*
+.DS_Store
 
 # IPython
 profile_default/
